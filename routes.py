@@ -1,15 +1,17 @@
 from flask import Flask
-import sqlite3
+from db_test import db_test
+from random import randrange
 
 app = Flask(__name__)
+my_db = db_test()
+
+my_db.num = randrange(0, 100)
 
 
 @app.route("/")
 def hello():
-    db = sqlite3.connect("mydb")
-    cursor = db.cursor()
-
-    return "Hello World!"
+    out = my_db.num
+    return str(out)
 
 if __name__ == "__main__":
     app.run()
