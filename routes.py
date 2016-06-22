@@ -30,10 +30,10 @@ def proxy_list(format="plain", number=10):
 
 @app.route("/get_proxy")
 @app.route("/get_proxy/<format>")
-@app.route("/get_proxy/<format>/<https_only>")
-def get_proxy(format="plain", https_only=None):
+@app.route("/get_proxy/<format>/<protocol>")
+def get_proxy(format="plain", protocol=None):
     proxy_factory = GetProxy()
-    buff = proxy_factory.get_proxy(format, https_only)
+    buff = proxy_factory.get_proxy(format, protocol)
     return Response(buff, mimetype=get_mime(format), status=200)
 
 
