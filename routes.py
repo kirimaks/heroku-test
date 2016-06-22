@@ -18,7 +18,7 @@ def hello():
 def proxy_list():
     pl = GetProxy()
     buff = [pl.get_proxy() for i in range(10)]
-    resp = Response(json.dumps(buff),
+    resp = Response(json.dumps(buff, indent=4, sort_keys=True),
                     status=200,
                     content_type='application/json; charset=utf-8')
 
