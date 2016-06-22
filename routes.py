@@ -10,7 +10,7 @@ scheduler.start()
 
 
 def get_mime(format):
-    return "text/plain" if format == "plain" else "application/json"
+    return "text/plain" if format == "plain" else "application/json; charset=utf-8"
 
 
 @app.route("/")
