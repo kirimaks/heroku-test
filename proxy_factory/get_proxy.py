@@ -14,7 +14,7 @@ class GetProxy(object):
 
     def get_proxy(self, format):
         proxy_buff = list()
-        proxy_buff.append(self.pl.get_proxy())
+        proxy_buff.append(self.pl.get_proxy().encode("utf8"))
 
         if format == "plain":
             return proxy_buff
