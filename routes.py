@@ -1,11 +1,13 @@
 from flask import Flask
 from db_test import db_test
-from random import randrange
+# from random import randrange
+from scheduler import Scheduler
 
 app = Flask(__name__)
 my_db = db_test()
 
-my_db.num = randrange(0, 100)
+scheduler = Scheduler()
+scheduler.start()
 
 
 @app.route("/")

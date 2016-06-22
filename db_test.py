@@ -1,41 +1,48 @@
 import sqlite3
-import os.path
+from ConfigParser import ConfigParser
 
 
 class db_desc_test(object):
     def __init__(self):
-        self.db = sqlite3.connect("mydb")
-        self.cursor = self.db.cursor()
+        # Get database name.
+        config = ConfigParser()
+        config.read("config.cfg")
+        self.db_name = config.get("Database", "file")
 
-        query = """
-            CREATE TABLE IF NOT EXISTS data(
-                id      INTEGER PRIMARY KEY AUTOINCREMENT,
-                number  INTEGER NOT NULL
-            )
-        """
-
-        self.cursor.execute(query)
-        self.db.commit()
-
-    def __del__(self):
-        self.db.close()
+        # Create table if need.
+        conn = sqlite3.connect(self.db_name)
+        with conn:
+            cursor = conn.cursor()
+            query = """
+                CREATE TABLE IF NOT EXISTS data(
+                    id      INTEGER PRIMARY KEY AUTOINCREMENT,
+                    number  INTEGER NOT NULL
+                )
+            """
+            cursor.execute(query)
 
     def __set__(self, obj, value):
-        num = value
-        query = """
-            INSERT INTO data(number) VALUES(?)
-        """
-        print(query)
-        self.cursor.execute(query, (num,))
-        self.db.commit()
+        conn = sqlite3.connect(self.db_name)
+        with conn:
+            cursor = conn.cursor()
+            num = value
+            query = """
+                INSERT INTO data(number) VALUES(?)
+            """
+            print(query)
+            cursor.execute(query, (num,))
 
     def __get__(self, obj, objtype):
-        query = """
-            SELECT * from data
-        """
-        print(query)
-        self.cursor.execute(query)
-        buff = self.cursor.fetchall()
+        conn = sqlite3.connect(self.db_name)
+        with conn:
+            cursor = conn.cursor()
+            query = """
+                SELECT * from data
+            """
+            print(query)
+            cursor.execute(query)
+            buff = cursor.fetchall()
+
         print(buff)
         return buff
 
