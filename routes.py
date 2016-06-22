@@ -10,7 +10,10 @@ scheduler.start()
 
 
 def get_mime(format):
-    return "text/plain" if format == "plain" else "application/json; charset=utf-8"
+    mime = ("text/plain"
+            if format == "plain"
+            else "application/json; charset=utf-8")
+    return mime
 
 
 @app.route("/")
@@ -21,10 +24,10 @@ def hello():
 @app.route("/get_proxy_list")
 @app.route("/get_proxy_list/<format>")
 @app.route("/get_proxy_list/<format>/<int:number>")
-@app.route("/get_proxy_list/<format>/<int:number>/https")
-def proxy_list(format="plain", number=10):
+@app.route("/get_proxy_list/<format>/<int:number>/<protocol>")
+def proxy_list(format="plain", number=10, protocol=None):
     proxy_factory = GetProxyList()
-    buff = proxy_factory.get_proxy_list(format, number)
+    buff = proxy_factory.get_proxy_list(format, number, protocol)
     return Response(buff, mimetype=get_mime(format), status=200)
 
 

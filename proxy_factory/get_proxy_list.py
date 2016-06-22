@@ -14,8 +14,11 @@ class GetProxyList(object):
     def __init__(self):
         self.pl = GetPrx()
 
-    def get_proxy_list(self, format, number):
-        proxy_buff = [self.pl.get_proxy() for i in range(number)]
+    def get_proxy_list(self, format, number, protocol):
+        if protocol == "https":
+            proxy_buff = [self.pl.get_https_proxy() for i in range(number)]
+        else:
+            proxy_buff = [self.pl.get_proxy() for i in range(number)]
 
         if format == "plain":
             return str.join(",", proxy_buff)
