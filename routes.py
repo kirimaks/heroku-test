@@ -18,8 +18,8 @@ def hello():
     return "Hello world"
 
 
-@app.route("/get_proxy_list/<format>/<number>")
-def proxy_list(number=10, format="plain"):
+@app.route("/get_proxy_list/<format>/<int:number>")
+def proxy_list(format="plain", number=10):
     proxy_factory = GetProxyList()
     buff = proxy_factory.get_proxy_list(format, number)
     return Response(buff, mimetype=get_mime(format), status=200)
