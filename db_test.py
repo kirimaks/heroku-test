@@ -1,7 +1,8 @@
 import sqlite3
+import os.path
 
 
-class db_test(object):
+class db_desc_test(object):
     def __init__(self):
         self.db = sqlite3.connect("mydb")
         self.cursor = self.db.cursor()
@@ -24,6 +25,7 @@ class db_test(object):
         query = """
             INSERT INTO data(number) VALUES(?)
         """
+        print(query)
         self.cursor.execute(query, (num,))
         self.db.commit()
 
@@ -31,5 +33,12 @@ class db_test(object):
         query = """
             SELECT * from data
         """
+        print(query)
         self.cursor.execute(query)
-        return self.cursor.fetchall()
+        buff = self.cursor.fetchall()
+        print(buff)
+        return buff
+
+
+class db_test(object):
+    num = db_desc_test()
