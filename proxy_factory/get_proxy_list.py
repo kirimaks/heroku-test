@@ -20,7 +20,7 @@ class GetProxyList(object):
         if format == "plain":
             return str.join(",", proxy_buff)
         else:
-            return json.dumps(proxy_buff)
+            return json.dumps(proxy_buff, indent=4, sort_keys=True)
 
 if __name__ == "__main__":
     test = GetProxyList()
