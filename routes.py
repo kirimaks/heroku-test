@@ -9,6 +9,10 @@ scheduler = Scheduler()
 scheduler.start()
 
 
+def get_mime(format):
+    return "text/plain" if format == "plain" else "application/json"
+
+
 @app.route("/")
 def hello():
     return "Hello world"
@@ -18,16 +22,14 @@ def hello():
 def proxy_list(number=10, format="plain"):
     proxy_factory = GetProxyList()
     buff = proxy_factory.get_proxy_list(format, number)
-    mimetype = "text/plain" if format == "plain" else "application/json"
-    return Response(buff, mimetype=mimetype, status=200)
+    return Response(buff, mimetype=get_mime(format), status=200)
 
 
 @app.route("/get_proxy/<format>")
 def get_proxy(format="plain"):
     proxy_factory = GetProxy()
     buff = proxy_factory.get_proxy(format)
-    mimetype = "text/plain" if format == "plain" else "application/json"
-    return Response(buff, mimetype=mimetype, status=200)
+    return Response(buff, mimetype=get_mime(format), status=200)
 
 
 if __name__ == "__main__":
