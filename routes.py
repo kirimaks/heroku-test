@@ -18,17 +18,22 @@ def hello():
     return "Hello world"
 
 
+@app.route("/get_proxy_list")
+@app.route("/get_proxy_list/<format>")
 @app.route("/get_proxy_list/<format>/<int:number>")
+@app.route("/get_proxy_list/<format>/<int:number>/https")
 def proxy_list(format="plain", number=10):
     proxy_factory = GetProxyList()
     buff = proxy_factory.get_proxy_list(format, number)
     return Response(buff, mimetype=get_mime(format), status=200)
 
 
+@app.route("/get_proxy")
 @app.route("/get_proxy/<format>")
-def get_proxy(format="plain"):
+@app.route("/get_proxy/<format>/<https_only>")
+def get_proxy(format="plain", https_only=None):
     proxy_factory = GetProxy()
-    buff = proxy_factory.get_proxy(format)
+    buff = proxy_factory.get_proxy(format, https_only)
     return Response(buff, mimetype=get_mime(format), status=200)
 
 

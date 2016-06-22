@@ -14,9 +14,13 @@ class GetProxy(object):
     def __init__(self):
         self.pl = GetPrx()
 
-    def get_proxy(self, format):
+    def get_proxy(self, format, https_only):
         proxy_buff = list()
-        proxy_buff.append(self.pl.get_proxy().encode("utf8"))
+
+        if https_only:
+            proxy_buff.append(self.pl.get_https_proxy().encode("utf8"))
+        else:
+            proxy_buff.append(self.pl.get_proxy().encode("utf8"))
 
         if format == "plain":
             return proxy_buff
