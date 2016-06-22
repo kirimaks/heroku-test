@@ -1,7 +1,7 @@
 from flask import Flask, Response
 from scheduler import Scheduler
-from proxy_list.get_proxy import GetProxy
-import json
+from proxy_factory.get_proxy import GetProxy
+from proxy_factory.get_proxy_list import GetProxyList
 
 app = Flask(__name__)
 
@@ -14,15 +14,20 @@ def hello():
     return "Hello world"
 
 
-@app.route("/proxy_list")
-def proxy_list():
-    pl = GetProxy()
-    buff = [pl.get_proxy() for i in range(10)]
-    resp = Response(json.dumps(buff, indent=4, sort_keys=True),
-                    status=200,
-                    content_type='application/json; charset=utf-8')
+@app.route("/get_proxy_list/<format>/<number>")
+def proxy_list(number=10, format="plain"):
+    proxy_factory = GetProxyList()
+    buff = proxy_factory.get_proxy_list(format, number)
+    mimetype = "text/plain" if format == "plain" else "application/json"
+    return Response(buff, mimetype=mimetype, status=200)
 
-    return resp
+
+@app.route("/get_proxy/<format>")
+def get_proxy(format="plain"):
+    proxy_factory = GetProxy()
+    buff = proxy_factory.get_proxy(format)
+    mimetype = "text/plain" if format == "plain" else "application/json"
+    return Response(buff, mimetype=mimetype, status=200)
 
 
 if __name__ == "__main__":
